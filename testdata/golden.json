@@ -1,0 +1,42 @@
+{
+  "_comment": "Frozen behaviour of fastcodec. All byte strings are hex. CRC vectors include those from RFC 3720 appendix B.4. Generated once from the C library and reviewed by hand; any change here is a breaking change.",
+  "crc32c": [
+    {"name": "empty", "input": "", "crc": "00000000"},
+    {"name": "a", "input": "61", "crc": "c1d04330"},
+    {"name": "check-123456789", "input": "313233343536373839", "crc": "e3069283"},
+    {"name": "rfc3720-32-zeros", "input": "0000000000000000000000000000000000000000000000000000000000000000", "crc": "8a9136aa"},
+    {"name": "rfc3720-32-ones", "input": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "crc": "62a8ab43"},
+    {"name": "rfc3720-ascending", "input": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f", "crc": "46dd794e"},
+    {"name": "rfc3720-descending", "input": "1f1e1d1c1b1a191817161514131211100f0e0d0c0b0a09080706050403020100", "crc": "113fdb5c"}
+  ],
+  "uvarint": [
+    {"name": "zero", "value": 0, "encoded": "00"},
+    {"name": "one", "value": 1, "encoded": "01"},
+    {"name": "max-1-byte", "value": 127, "encoded": "7f"},
+    {"name": "min-2-byte", "value": 128, "encoded": "8001"},
+    {"name": "300", "value": 300, "encoded": "ac02"},
+    {"name": "min-3-byte", "value": 16384, "encoded": "808001"},
+    {"name": "max-uint32", "value": 4294967295, "encoded": "ffffffff0f"},
+    {"name": "max-int64", "value": 9223372036854775807, "encoded": "ffffffffffffffff7f"},
+    {"name": "max-uint64", "value": 18446744073709551615, "encoded": "ffffffffffffffffff01"}
+  ],
+  "uvarint_errors": [
+    {"name": "empty", "input": "", "err": "short"},
+    {"name": "dangling-continuation", "input": "80", "err": "short"},
+    {"name": "ten-continuations", "input": "80808080808080808080", "err": "short"},
+    {"name": "tenth-byte-too-big", "input": "ffffffffffffffffff02", "err": "overflow"},
+    {"name": "eleven-bytes", "input": "8080808080808080808000", "err": "overflow"}
+  ],
+  "rle": [
+    {"name": "empty", "input": "", "encoded": ""},
+    {"name": "single", "input": "41", "encoded": "0141"},
+    {"name": "aaab", "input": "61616162", "encoded": "03610162"},
+    {"name": "alternating", "input": "000100", "encoded": "010001010100"},
+    {"name": "run-255", "input": "repeat:7a:255", "encoded": "ff7a"},
+    {"name": "run-300", "input": "repeat:7a:300", "encoded": "ff7a2d7a"}
+  ],
+  "rle_errors": [
+    {"name": "odd-length", "input": "0141ff", "err": "corrupt"},
+    {"name": "zero-count", "input": "0041", "err": "corrupt"}
+  ]
+}

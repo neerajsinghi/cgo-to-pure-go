@@ -1,0 +1,14 @@
+# Binaries
+/bin/
+/crc32c
+*.test
+*.out
+*.prof
+
+# Fuzz corpora found locally (commit interesting ones deliberately)
+testdata/fuzz/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
